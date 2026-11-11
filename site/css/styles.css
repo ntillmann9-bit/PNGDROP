@@ -287,3 +287,23 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; letter-spacing:
   html { scroll-behavior: auto; }
   .trust-track, .scroll-hint span, #tag i::after, .pill-label .pulse { animation: none; }
 }
+
+/* ---------- Modell-Umschalter Wärmepumpe | Bad ---------- */
+body:not([data-active-mode="bad"]) [data-mode="bad"]:not(.mode-switch),
+body[data-active-mode="bad"] [data-mode="wp"]:not(.mode-switch) { display: none; }
+body[data-active-mode="bad"] { --warm: #5fc4ff; }
+.mode-switch { position: absolute; z-index: 5; left: 50%; top: 92px; transform: translateX(-50%); display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 999px; background: rgba(10,10,12,.7); box-shadow: inset 0 0 0 1px var(--line-2), 0 10px 30px rgba(0,0,0,.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.mode-switch button { all: unset; box-sizing: border-box; width: 132px; position: relative; z-index: 1; cursor: pointer; padding: 9px 10px; text-align: center; font: 500 12px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .3s; }
+.mode-switch button[aria-pressed="true"] { color: #000; }
+.mode-switch button:focus-visible { outline: 1px solid #fff; outline-offset: 2px; border-radius: 999px; }
+.mode-switch i { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: #fff; box-shadow: 0 0 24px rgba(255,255,255,.35); transition: transform .45s cubic-bezier(.7,0,.2,1); }
+.mode-switch[data-mode="bad"] i { transform: translateX(100%); }
+.stage-fade { position: absolute; inset: 0; background: #030304; opacity: 0; pointer-events: none; transition: opacity .26s ease; z-index: 4; }
+.stage-fade.on { opacity: 1; }
+.hero-copy { top: 19vh; }
+.hero-actions.left { justify-content: flex-start; }
+@media (max-width: 820px) {
+  .mode-switch { top: 76px; }
+  .mode-switch button { width: 116px; padding: 8px 6px; font-size: 10.5px; letter-spacing: .08em; }
+  .hero-copy { top: 126px; }
+}

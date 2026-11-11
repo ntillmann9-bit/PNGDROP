@@ -13,7 +13,8 @@ const DIV = 0.18;        // Trennwand x
 
 export function createMaterials(logoTexture) {
   const m = {};
-  m.shell = new THREE.MeshPhysicalMaterial({ color: 0x2e3137, roughness: 0.42, metalness: 0.3, clearcoat: 1, clearcoatRoughness: 0.12 });
+  m.shell = new THREE.MeshPhysicalMaterial({ color: 0xd3d6da, roughness: 0.34, metalness: 0.2, clearcoat: 0.8, clearcoatRoughness: 0.15 });
+  m.slat = new THREE.MeshStandardMaterial({ color: 0x33373d, roughness: 0.5, metalness: 0.35 });
   m.shellInner = new THREE.MeshStandardMaterial({ color: 0xd9dce1, roughness: 0.6 });
   m.anthracite = new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.5, metalness: 0.35 });
   m.dark = new THREE.MeshStandardMaterial({ color: 0x15171b, roughness: 0.45, metalness: 0.55 });
@@ -253,48 +254,49 @@ function buildFan(m) {
   return g;
 }
 
+// Lamellenfront (große dunkle Fläche über dem Ventilator, horizontale Lamellen)
+const GX0 = -W / 2 + 0.05, GX1 = DIV - 0.03, GY0 = 0.075, GY1 = H - 0.075;
 function buildGrille(m) {
   const g = new THREE.Group(); g.name = 'grille';
-  g.position.set(FX, FY, D / 2 + 0.03);
-  for (let r = 0.05; r <= 0.305; r += 0.0215) g.add(mesh(new THREE.TorusGeometry(r, 0.0032, 6, 120), m.anthracite));
-  const spokes = [];
-  for (let k = 0; k < 8; k++) { const a = k / 8 * Math.PI * 2 + Math.PI / 8; spokes.push(M4(Math.cos(a) * 0.18, Math.sin(a) * 0.18, -0.002, 0, 0, a)); }
-  g.add(instanced(new THREE.BoxGeometry(0.27, 0.007, 0.006), m.anthracite, spokes));
-  const center = cyl(0.04, 0.008, m.anthracite, 'z'); g.add(center);
-  const dot = cyl(0.016, 0.01, m.yellow, 'z'); dot.position.z = 0.002; g.add(dot);
+  g.position.set(0, B, D / 2 + 0.006);
+  const w = GX1 - GX0, cx = (GX0 + GX1) / 2;
+  const n = 30, step = (GY1 - GY0) / n;
+  const slats = [];
+  for (let i = 0; i < n; i++) slats.push(M4(cx, GY0 + step * (i + 0.5), 0.004, -0.55, 0, 0));
+  g.add(instanced(new THREE.BoxGeometry(w - 0.01, step * 0.78, 0.0035), m.slat, slats));
+  // Rahmen
+  g.add(box(w, 0.012, 0.016, m.slat, cx, GY0, 0.002));
+  g.add(box(w, 0.012, 0.016, m.slat, cx, GY1, 0.002));
+  g.add(box(0.012, GY1 - GY0, 0.016, m.slat, GX0, (GY0 + GY1) / 2, 0.002));
+  g.add(box(0.012, GY1 - GY0, 0.016, m.slat, GX1, (GY0 + GY1) / 2, 0.002));
+  // zwei senkrechte Stege
+  for (const x of [cx - w / 6, cx + w / 6]) g.add(box(0.006, GY1 - GY0, 0.01, m.slat, x, (GY0 + GY1) / 2, -0.004));
   return g;
 }
 
 function buildFront(m) {
   const g = new THREE.Group(); g.name = 'front';
   const depth = 0.014;
-  const shape = roundedRectShape(-W / 2, 0, W, H, 0.035);
-  const hole = new THREE.Path(); hole.absarc(FX, FY - B, 0.305, 0, Math.PI * 2, true);
+  const shape = roundedRectShape(-W / 2, 0, W, H, 0.04);
+  const hole = new THREE.Path();
+  const r = 0.025;
+  hole.moveTo(GX0 + r, GY0); hole.lineTo(GX1 - r, GY0); hole.quadraticCurveTo(GX1, GY0, GX1, GY0 + r);
+  hole.lineTo(GX1, GY1 - r); hole.quadraticCurveTo(GX1, GY1, GX1 - r, GY1);
+  hole.lineTo(GX0 + r, GY1); hole.quadraticCurveTo(GX0, GY1, GX0, GY1 - r);
+  hole.lineTo(GX0, GY0 + r); hole.quadraticCurveTo(GX0, GY0, GX0 + r, GY0);
   shape.holes.push(hole);
-  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: 0.005, bevelSize: 0.005, bevelSegments: 3, curveSegments: 64 });
-  const panel = mesh(geo, m.shell);
-  g.add(panel);
+  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: 0.006, bevelSize: 0.006, bevelSegments: 4, curveSegments: 24 });
+  g.add(mesh(geo, m.shell));
   g.position.set(0, B, D / 2 - 0.004);
-  const zf = depth + 0.0055;
-  // Rahmen um die Lüfteröffnung
-  g.add(mesh(new THREE.TorusGeometry(0.308, 0.006, 10, 128), m.anthracite, FX, FY - B, zf - 0.002));
-  // Markenleiste unten (blau) + gelbe Linie
-  g.add(box(W - 0.1, 0.004, 0.003, m.yellowGlow, 0, 0.04, zf));
-  // Logo-Schild
-  const logo = mesh(new THREE.PlaneGeometry(0.1, 0.1), m.logo, 0.4, H - 0.115, zf + 0.0015);
+  const zf = depth + 0.0065;
+  // schmale Schattenfuge um die Lamellenfläche
+  g.add(box(GX1 - GX0 + 0.012, 0.003, 0.002, m.black, (GX0 + GX1) / 2, GY0 - 0.006, zf - 0.004));
+  // Logo-Schild rechts oben
+  const logo = mesh(new THREE.PlaneGeometry(0.075, 0.075), m.logo, 0.37, H - 0.12, zf);
   logo.castShadow = false; g.add(logo);
-  // Display
-  g.add(rbox(0.16, 0.05, 0.006, 0.006, m.glass, 0.35, H - 0.3, zf));
-  g.add(box(0.07, 0.0035, 0.002, m.blueGlow, 0.33, H - 0.3, zf + 0.0035));
-  g.add(mesh(new THREE.CircleGeometry(0.0045, 16), m.yellowGlow, 0.405, H - 0.3, zf + 0.0036));
-  // Lüftungsschlitze rechts unten
-  for (let i = 0; i < 7; i++) g.add(rbox(0.22, 0.0075, 0.003, 0.0015, m.black, 0.35, 0.12 + i * 0.022, zf - 0.001));
-  // Schrauben am Rand
-  const sp = [];
-  for (const x of [-W / 2 + 0.03, W / 2 - 0.03]) for (const y of [0.03, H / 2, H - 0.03]) sp.push([x, y, zf - 0.002]);
-  for (const x of [-0.2, 0.18]) for (const y of [0.03, H - 0.03]) sp.push([x, y, zf - 0.002]);
-  g.add(screws(sp, m.galv, 'z'));
-  g.userData.anchor = new THREE.Vector3(-0.05, H - 0.08, zf);
+  // kleine Status-LED
+  g.add(mesh(new THREE.CircleGeometry(0.004, 16), m.yellowGlow, 0.37, 0.12, zf));
+  g.userData.anchor = new THREE.Vector3(0.37, H - 0.2, zf);
   return g;
 }
 
@@ -437,6 +439,6 @@ export function buildHeatPump(m) {
 
   parts.coil.userData.anchor = new THREE.Vector3(-0.3, B + 0.7, -D / 2);
   parts.fan.userData.anchor = new THREE.Vector3(0.16, 0.14, 0.02);
-  parts.grille.userData.anchor = new THREE.Vector3(0.2, 0.2, 0);
+  parts.grille.userData.anchor = new THREE.Vector3(-0.2, 0.6, 0.01);
   return { root, parts };
 }

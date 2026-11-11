@@ -42,7 +42,7 @@
       <canvas id="scene" aria-hidden="true"></canvas>
       <div class="vignette" aria-hidden="true"></div>
 
-      <div class="hero-copy">
+      <div class="hero-copy" data-mode="wp">
         <p class="pill-label"><span class="pulse"></span>Heizung &amp; Sanitär · Lippstadt</p>
         <h1>Die Wärmepumpe,<br><span class="fade">sauber eingebaut.</span></h1>
         <p class="lead">Wir planen, installieren und warten Wärmepumpen, Heizungen und Bäder. <br>Persönlich, ordentlich und zu fairen Preisen.</p>
@@ -51,53 +51,104 @@
           <a class="btn btn-white" href="#story-start">Wärmepumpe erkunden</a>
         </div>
       </div>
+
+      <div class="hero-copy" data-mode="bad">
+        <p class="pill-label"><span class="pulse"></span>Bäder · Lippstadt</p>
+        <h1>Ihr neues Bad,<br><span class="fade">bis ins Detail geplant.</span></h1>
+        <p class="lead">Freistehende Wanne, schwarze Akzente, warme Fliesen. <br>Wir bauen Bäder, in denen alles sitzt, auch das, was man nicht sieht.</p>
+        <div class="hero-actions">
+          <a class="btn btn-outline" href="#kontakt">Badberatung anfragen <span aria-hidden="true">»</span></a>
+          <a class="btn btn-white" href="#story-start">Bad erkunden</a>
+        </div>
+      </div>
+
+      <div class="mode-switch" role="group" aria-label="3D-Modell wählen" data-mode="wp">
+        <button type="button" data-set-mode="wp" aria-pressed="true">Wärmepumpe</button>
+        <button type="button" data-set-mode="bad" aria-pressed="false">Bad</button>
+        <i aria-hidden="true"></i>
+      </div>
       <p class="scroll-hint" aria-hidden="true"><span></span>Scrollen</p>
 
-      <article class="stage-card left" data-stage="gehaeuse">
+      <article class="stage-card left" data-mode="wp" data-stage="gehaeuse">
         <p class="num">01 <i></i> Gehäuse</p>
         <h2>Wetterfest und flüsterleise.</h2>
         <p>Pulverbeschichtetes Stahlgehäuse mit schallgedämmter Verkleidung. Wir planen den Aufstellort so, dass Sie und Ihre Nachbarn nichts davon hören.</p>
         <ul class="chips"><li>Schallgedämmt</li><li>Wetterfest</li><li>Aufstellplanung inklusive</li></ul>
       </article>
 
-      <article class="stage-card right" data-stage="ventilator">
+      <article class="stage-card right" data-mode="wp" data-stage="ventilator">
         <p class="num">02 <i></i> Ventilator</p>
         <h2>Holt die Wärme aus der Luft.</h2>
         <p>Der drehzahlgeregelte EC-Ventilator zieht Außenluft durch den Wärmetauscher. So langsam wie möglich, so schnell wie nötig.</p>
         <ul class="chips"><li>Drehzahlgeregelt</li><li>Leiser Nachtmodus</li><li>Energiesparend</li></ul>
       </article>
 
-      <article class="stage-card left" data-stage="verdichter">
+      <article class="stage-card left" data-mode="wp" data-stage="verdichter">
         <p class="num">03 <i></i> Verdichter</p>
         <h2>Das Herz der Anlage.</h2>
         <p>Der Inverter-Verdichter hebt die Umweltwärme auf Heiztemperatur und passt seine Leistung stufenlos an Ihr Haus an. Für Heizkörper und Fußbodenheizung.</p>
         <ul class="chips"><li>Stufenlos modulierend</li><li>Schwingungsentkoppelt</li></ul>
       </article>
 
-      <article class="stage-card right" data-stage="verdampfer">
+      <article class="stage-card right" data-mode="wp" data-stage="verdampfer">
         <p class="num">04 <i></i> Verdampfer</p>
         <h2>Wärme, auch bei Frost.</h2>
         <p>Hunderte Aluminium-Lamellen und Kupferrohre nehmen Energie aus der Außenluft auf, auch bei Minusgraden. Die Abtauautomatik hält sie eisfrei.</p>
         <ul class="chips"><li>Abtauautomatik</li><li>Korrosionsschutz</li><li>Große Tauscherfläche</li></ul>
       </article>
 
-      <article class="stage-card left" data-stage="regelung">
+      <article class="stage-card left" data-mode="wp" data-stage="regelung">
         <p class="num">05 <i></i> Regelung</p>
         <h2>Regelung, die mitdenkt.</h2>
         <p>Die Elektronik steuert Verdichter und Ventilator, die App zeigt Verbrauch und Effizienz. Wir richten alles ein und optimieren nach der ersten Heizperiode.</p>
         <ul class="chips"><li>App-Steuerung</li><li>Fernwartung</li><li>Hydraulischer Abgleich</li></ul>
       </article>
 
-      <article class="stage-card wide" data-stage="explosion">
+      <article class="stage-card wide" data-mode="wp" data-stage="explosion">
         <p class="num">06 <i></i> Alles aus einer Hand</p>
         <h2>Hunderte Teile. Ein Ansprechpartner.</h2>
         <p>Heizlastberechnung, Förderantrag, Montage, Inbetriebnahme und Wartung: Bei HST bleibt alles in einer Hand.</p>
         <a class="btn btn-white" href="#kontakt">Wärmepumpen-Check vereinbaren</a>
       </article>
 
+      <article class="stage-card left" data-mode="bad" data-stage="wanne">
+        <p class="num">01 <i></i> Badewanne</p>
+        <h2>Freistehend und federleicht.</h2>
+        <p>Rechteckwanne mit hauchdünnem Rand, frei im Raum. Darunter stecken verstellbarer Wannenträger, Ab- und Überlaufgarnitur und der Anschluss im Boden. Alles geplant, bevor die Fliesen kommen.</p>
+        <ul class="chips"><li>Freistehende Wanne</li><li>Bodenstand-Armatur</li><li>Ab- &amp; Überlauf</li></ul>
+      </article>
+
+      <article class="stage-card right" data-mode="bad" data-stage="waschtisch">
+        <p class="num">02 <i></i> Waschtisch</p>
+        <h2>Schwarzes Aufsatzbecken auf Eiche.</h2>
+        <p>Rundes Aufsatzbecken in Mattschwarz, Wandarmatur, hinterleuchteter Spiegel. Hinter der Front sitzen Eckventile, Siphon und Leitungen, exakt auf das Möbel abgestimmt.</p>
+        <ul class="chips"><li>Aufsatzbecken</li><li>Wandarmatur</li><li>Unterputz-Anschlüsse</li></ul>
+      </article>
+
+      <article class="stage-card left" data-mode="bad" data-stage="vorwand">
+        <p class="num">03 <i></i> Vorwandtechnik</p>
+        <h2>Was hinter der Wand steckt.</h2>
+        <p>Das wandhängende WC sitzt auf einem Tragrahmen mit Unterputzspülkasten. Die Vorwand verbirgt Technik und Rohre, und der Boden darunter bleibt frei und leicht zu reinigen.</p>
+        <ul class="chips"><li>Wandhängendes WC</li><li>Unterputzspülkasten</li><li>Schallschutz</li></ul>
+      </article>
+
+      <article class="stage-card right" data-mode="bad" data-stage="boden">
+        <p class="num">04 <i></i> Fußbodenheizung</p>
+        <h2>Warme Füße, ganz ohne Heizkörper.</h2>
+        <p>Unter Fliesen und Estrich liegen die Heizrohre auf der Dämmung. Mit niedriger Vorlauftemperatur ist das die ideale Ergänzung zur Wärmepumpe.</p>
+        <ul class="chips"><li>Niedrige Vorlauftemperatur</li><li>Ideal mit Wärmepumpe</li><li>Gleichmäßige Wärme</li></ul>
+      </article>
+
+      <article class="stage-card wide" data-mode="bad" data-stage="explosion">
+        <p class="num">05 <i></i> Alles aus einer Hand</p>
+        <h2>Ein Bad. Alle Gewerke. Ein Ansprechpartner.</h2>
+        <p>Sanitär, Heizung, Fliesen, Elektrik: Wir koordinieren alles, und Sie bekommen ein fertiges Bad zum Festpreis.</p>
+        <a class="btn btn-white" href="#kontakt">Badberatung vereinbaren</a>
+      </article>
+
       <div id="tag" aria-hidden="true"><i></i><span></span></div>
 
-      <nav class="stage-nav" aria-label="Bauteile">
+      <nav class="stage-nav" data-mode="wp" aria-label="Bauteile Wärmepumpe">
         <button data-stage="gehaeuse"><b>01</b><span>Gehäuse</span></button>
         <button data-stage="ventilator"><b>02</b><span>Ventilator</span></button>
         <button data-stage="verdichter"><b>03</b><span>Verdichter</span></button>
@@ -105,8 +156,16 @@
         <button data-stage="regelung"><b>05</b><span>Regelung</span></button>
         <button data-stage="explosion"><b>06</b><span>Explosion</span></button>
       </nav>
+      <nav class="stage-nav" data-mode="bad" aria-label="Bauteile Bad">
+        <button data-stage="wanne"><b>01</b><span>Badewanne</span></button>
+        <button data-stage="waschtisch"><b>02</b><span>Waschtisch</span></button>
+        <button data-stage="vorwand"><b>03</b><span>Vorwand</span></button>
+        <button data-stage="boden"><b>04</b><span>Fußbodenheizung</span></button>
+        <button data-stage="explosion"><b>05</b><span>Explosion</span></button>
+      </nav>
       <div class="story-progress" aria-hidden="true"><i></i></div>
-      <p class="model-note">Illustratives 3D-Modell, kein konkretes Herstellerprodukt</p>
+      <div class="stage-fade" aria-hidden="true"></div>
+      <p class="model-note">Illustrative 3D-Modelle, keine Herstellerprodukte</p>
     </div>
     <span id="story-start" class="story-anchor" aria-hidden="true"></span>
   </section>
@@ -128,7 +187,7 @@
         <p>Vom tropfenden Wasserhahn bis zur kompletten Heizungsmodernisierung. Wir kommen pünktlich, arbeiten sauber und erklären, was wir tun.</p>
       </header>
       <div class="bento">
-        <a class="tile tile-lg" href="#story">
+        <a class="tile tile-lg" href="#story" data-set-mode="wp">
           <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="3"/><circle cx="19" cy="24" r="9"/><path d="M19 15v18M10 24h18M33 16h6M33 22h6M33 28h6"/></svg>
           <h3>Wärmepumpen</h3>
           <p>Planung, Heizlastberechnung, Montage und Inbetriebnahme. Auch im Bestandsgebäude und mit Heizkörpern.</p>
@@ -139,7 +198,7 @@
           <h3>Heizungsmodernisierung</h3>
           <p>Austausch alter Öl- und Gaskessel, Hybridlösungen, Fußbodenheizung, hydraulischer Abgleich.</p>
         </a>
-        <a class="tile" href="#bad">
+        <a class="tile" href="#story" data-set-mode="bad">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 26h36v4a10 10 0 0 1-10 10H16A10 10 0 0 1 6 30z"/><path d="M12 26V12a5 5 0 0 1 10 0M14 40l-2 4M34 40l2 4"/></svg>
           <h3>Badsanierung</h3>
           <p>Bodengleiche Duschen, barrierefreie Bäder, Komplettsanierung mit festem Ansprechpartner.</p>
@@ -205,7 +264,7 @@
           <li>Koordination von Fliesenleger, Elektriker und Trockenbau</li>
           <li>Festpreisangebot nach Aufmaß</li>
         </ul>
-        <a class="btn btn-outline" href="#kontakt">Badberatung vereinbaren <span aria-hidden="true">»</span></a>
+        <div class="hero-actions left"><a class="btn btn-white" href="#story" data-set-mode="bad">Bad in 3D ansehen</a><a class="btn btn-outline" href="#kontakt">Badberatung vereinbaren <span aria-hidden="true">»</span></a></div>
       </div>
       <div class="bath-visual" aria-hidden="true">
         <div class="tiles"></div>

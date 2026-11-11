@@ -19,6 +19,7 @@ const lineVS = /* glsl */`
   attribute float aBright;
   attribute vec3 aColor;
   uniform float uTime;
+  uniform float uCool;
   varying float vA;
   varying vec3 vC;
   void main() {
@@ -26,7 +27,9 @@ const lineVS = /* glsl */`
     float pulse = pow(flow, 7.0);
     float ends = smoothstep(0.0, 0.12, aU) * smoothstep(1.0, 0.8, aU);
     vA = aBright * ends * (0.28 + 1.4 * pulse);
-    vC = aColor;
+    // warme Linien kippen im Bad-Modus zu Wasserblau
+    float warm = step(aColor.b + 0.2, aColor.r);
+    vC = mix(aColor, vec3(0.42, 0.78, 1.0), uCool * warm);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }`;
 const lineFS = /* glsl */`
@@ -116,7 +119,7 @@ export function createVortex(pixelRatio = 1) {
   lg.setAttribute('aColor', new THREE.Float32BufferAttribute(col, 3));
   const lineMat = new THREE.ShaderMaterial({
     vertexShader: lineVS, fragmentShader: lineFS,
-    uniforms: { uTime: { value: 0 }, uOpacity: { value: 0.5 } },
+    uniforms: { uTime: { value: 0 }, uOpacity: { value: 0.5 }, uCool: { value: 0 } },
     transparent: false, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
   });
   const lines = new THREE.LineSegments(lg, lineMat);
@@ -157,8 +160,9 @@ export function createVortex(pixelRatio = 1) {
 
   return {
     group,
-    update(time, opacity) {
+    update(time, opacity, cool = 0) {
       lineMat.uniforms.uTime.value = time;
+      lineMat.uniforms.uCool.value = cool;
       ptsMat.uniforms.uTime.value = time;
       lineMat.uniforms.uOpacity.value = 0.55 * opacity;
       ptsMat.uniforms.uOpacity.value = 0.85 * opacity;
