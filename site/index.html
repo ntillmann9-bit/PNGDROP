@@ -3,32 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030304">
   <title>HST Heizung · Sanitär · Trojanski</title>
   <meta name="description" content="HST – Heizung, Sanitär, Trojanski: Ihr Fachbetrieb für Heizung, Bad und Wärmepumpen in Lippstadt.">
   <link rel="icon" href="assets/hst-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Semi+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 </head>
 <body>
 
 <header class="site-header">
-  <a class="brand" href="#top" aria-label="HST Startseite">
-    <img src="assets/hst-mark.svg" alt="HST" width="46" height="46">
-    <span><b>HST</b><small>Heizung · Sanitär · Trojanski</small></span>
-  </a>
-  <nav class="main-nav" aria-label="Hauptnavigation">
-    <a href="#story">Wärmepumpe</a>
-    <a href="#leistungen">Leistungen</a>
-    <a href="#bad">Bäder</a>
-    <a href="#ueber-uns">Über uns</a>
-    <a href="#kontakt">Kontakt</a>
-  </nav>
-  <div class="header-cta">
-    <a class="phone" href="tel:+490000000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>0000 / 00 00 00</a>
-    <a class="btn btn-yellow" href="#kontakt">Beratung anfragen</a>
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="HST Startseite">
+      <img src="assets/hst-mark.svg" alt="" width="34" height="34">
+      <span>HST</span>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Hauptnavigation">
+      <a href="#story">Wärmepumpe</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#bad">Bäder</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#kontakt">Kontakt</a>
+      <a class="nav-cta" href="#kontakt">Beratung anfragen</a>
+    </nav>
+    <a class="btn btn-outline header-btn" href="#kontakt">Beratung anfragen</a>
+    <button class="menu-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -38,152 +40,172 @@
   <section id="story" aria-label="Die Wärmepumpe im Detail">
     <div class="stage">
       <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="vignette" aria-hidden="true"></div>
 
       <div class="hero-copy">
-        <p class="eyebrow"><span class="dot"></span>Ihr Fachbetrieb in Lippstadt</p>
-        <h1>Wärme aus der Luft.<br><em>Sauber eingebaut.</em></h1>
-        <p class="lead">Wir planen, installieren und warten Heizungen, Bäder und Wärmepumpen in Lippstadt und Umgebung – zuverlässig, ordentlich und zu fairen Preisen.</p>
+        <p class="pill-label"><span class="pulse"></span>Heizung &amp; Sanitär · Lippstadt</p>
+        <h1>Die Wärmepumpe,<br><span class="fade">sauber eingebaut.</span></h1>
+        <p class="lead">Wir planen, installieren und warten Wärmepumpen, Heizungen und Bäder. <br>Persönlich, ordentlich und zu fairen Preisen.</p>
         <div class="hero-actions">
-          <a class="btn btn-blue" href="#kontakt">Kostenlose Beratung</a>
-          <a class="btn btn-ghost" href="#leistungen">Unsere Leistungen</a>
+          <a class="btn btn-outline" href="#kontakt">Beratung anfragen <span aria-hidden="true">»</span></a>
+          <a class="btn btn-white" href="#story-start">Wärmepumpe erkunden</a>
         </div>
-        <p class="scroll-hint"><span></span>Scrollen und die Wärmepumpe zerlegen</p>
       </div>
+      <p class="scroll-hint" aria-hidden="true"><span></span>Scrollen</p>
 
       <article class="stage-card left" data-stage="gehaeuse">
-        <p class="num">01 <span>Gehäuse</span></p>
-        <h2>Wetterfest und flüsterleise</h2>
+        <p class="num">01 <i></i> Gehäuse</p>
+        <h2>Wetterfest und flüsterleise.</h2>
         <p>Pulverbeschichtetes Stahlgehäuse mit schallgedämmter Verkleidung. Wir planen den Aufstellort so, dass Sie und Ihre Nachbarn nichts davon hören.</p>
         <ul class="chips"><li>Schallgedämmt</li><li>Wetterfest</li><li>Aufstellplanung inklusive</li></ul>
       </article>
 
       <article class="stage-card right" data-stage="ventilator">
-        <p class="num">02 <span>Ventilator</span></p>
-        <h2>Holt die Wärme aus der Luft</h2>
-        <p>Der drehzahlgeregelte EC-Ventilator zieht Außenluft durch den Wärmetauscher – so langsam wie möglich, so schnell wie nötig.</p>
+        <p class="num">02 <i></i> Ventilator</p>
+        <h2>Holt die Wärme aus der Luft.</h2>
+        <p>Der drehzahlgeregelte EC-Ventilator zieht Außenluft durch den Wärmetauscher. So langsam wie möglich, so schnell wie nötig.</p>
         <ul class="chips"><li>Drehzahlgeregelt</li><li>Leiser Nachtmodus</li><li>Energiesparend</li></ul>
       </article>
 
       <article class="stage-card left" data-stage="verdichter">
-        <p class="num">03 <span>Verdichter</span></p>
-        <h2>Das Herz der Anlage</h2>
-        <p>Der Inverter-Verdichter hebt die Umweltwärme auf Heiztemperatur und passt seine Leistung stufenlos an Ihr Haus an – für Heizkörper und Fußbodenheizung.</p>
+        <p class="num">03 <i></i> Verdichter</p>
+        <h2>Das Herz der Anlage.</h2>
+        <p>Der Inverter-Verdichter hebt die Umweltwärme auf Heiztemperatur und passt seine Leistung stufenlos an Ihr Haus an. Für Heizkörper und Fußbodenheizung.</p>
         <ul class="chips"><li>Stufenlos modulierend</li><li>Schwingungsentkoppelt</li></ul>
       </article>
 
       <article class="stage-card right" data-stage="verdampfer">
-        <p class="num">04 <span>Verdampfer</span></p>
-        <h2>Wärme – auch bei Frost</h2>
+        <p class="num">04 <i></i> Verdampfer</p>
+        <h2>Wärme, auch bei Frost.</h2>
         <p>Hunderte Aluminium-Lamellen und Kupferrohre nehmen Energie aus der Außenluft auf, auch bei Minusgraden. Die Abtauautomatik hält sie eisfrei.</p>
         <ul class="chips"><li>Abtauautomatik</li><li>Korrosionsschutz</li><li>Große Tauscherfläche</li></ul>
       </article>
 
       <article class="stage-card left" data-stage="regelung">
-        <p class="num">05 <span>Regelung</span></p>
-        <h2>Regelung, die mitdenkt</h2>
+        <p class="num">05 <i></i> Regelung</p>
+        <h2>Regelung, die mitdenkt.</h2>
         <p>Die Elektronik steuert Verdichter und Ventilator, die App zeigt Verbrauch und Effizienz. Wir richten alles ein und optimieren nach der ersten Heizperiode.</p>
         <ul class="chips"><li>App-Steuerung</li><li>Fernwartung</li><li>Hydraulischer Abgleich</li></ul>
       </article>
 
       <article class="stage-card wide" data-stage="explosion">
-        <p class="num">06 <span>Alles aus einer Hand</span></p>
+        <p class="num">06 <i></i> Alles aus einer Hand</p>
         <h2>Hunderte Teile. Ein Ansprechpartner.</h2>
-        <p>Heizlastberechnung, Förderantrag, Montage, Inbetriebnahme und Wartung – bei HST bleibt alles in einer Hand.</p>
-        <a class="btn btn-yellow" href="#kontakt">Wärmepumpen-Check vereinbaren</a>
+        <p>Heizlastberechnung, Förderantrag, Montage, Inbetriebnahme und Wartung: Bei HST bleibt alles in einer Hand.</p>
+        <a class="btn btn-white" href="#kontakt">Wärmepumpen-Check vereinbaren</a>
       </article>
 
       <div id="tag" aria-hidden="true"><i></i><span></span></div>
 
       <nav class="stage-nav" aria-label="Bauteile">
-        <button data-stage="gehaeuse"><span>Gehäuse</span></button>
-        <button data-stage="ventilator"><span>Ventilator</span></button>
-        <button data-stage="verdichter"><span>Verdichter</span></button>
-        <button data-stage="verdampfer"><span>Verdampfer</span></button>
-        <button data-stage="regelung"><span>Regelung</span></button>
-        <button data-stage="explosion"><span>Explosion</span></button>
+        <button data-stage="gehaeuse"><b>01</b><span>Gehäuse</span></button>
+        <button data-stage="ventilator"><b>02</b><span>Ventilator</span></button>
+        <button data-stage="verdichter"><b>03</b><span>Verdichter</span></button>
+        <button data-stage="verdampfer"><b>04</b><span>Verdampfer</span></button>
+        <button data-stage="regelung"><b>05</b><span>Regelung</span></button>
+        <button data-stage="explosion"><b>06</b><span>Explosion</span></button>
       </nav>
       <div class="story-progress" aria-hidden="true"><i></i></div>
-      <p class="model-note">Illustratives 3D-Modell, kein konkretes Herstellerprodukt.</p>
+      <p class="model-note">Illustratives 3D-Modell, kein konkretes Herstellerprodukt</p>
     </div>
+    <span id="story-start" class="story-anchor" aria-hidden="true"></span>
   </section>
+
+  <!-- ============ Vertrauensleiste ============ -->
+  <div class="trust" aria-label="Auf einen Blick">
+    <div class="trust-track">
+      <span>Wärmepumpen</span><i></i><span>Heizungsmodernisierung</span><i></i><span>Badsanierung</span><i></i><span>Sanitärinstallation</span><i></i><span>Wartung &amp; Kundendienst</span><i></i><span>Förderberatung</span><i></i>
+      <span>Wärmepumpen</span><i></i><span>Heizungsmodernisierung</span><i></i><span>Badsanierung</span><i></i><span>Sanitärinstallation</span><i></i><span>Wartung &amp; Kundendienst</span><i></i><span>Förderberatung</span><i></i>
+    </div>
+  </div>
 
   <!-- ============ Leistungen ============ -->
   <section id="leistungen" class="section">
     <div class="wrap">
       <header class="section-head">
-        <p class="eyebrow dark"><span class="dot"></span>Leistungen</p>
-        <h2>Alles rund um Wärme und Wasser.</h2>
-        <p>Vom tropfenden Wasserhahn bis zur kompletten Heizungsmodernisierung: Wir kommen pünktlich, arbeiten sauber und erklären, was sie tun.</p>
+        <p class="pill-label">Leistungen</p>
+        <h2>Alles rund um <span class="fade">Wärme und Wasser.</span></h2>
+        <p>Vom tropfenden Wasserhahn bis zur kompletten Heizungsmodernisierung. Wir kommen pünktlich, arbeiten sauber und erklären, was wir tun.</p>
       </header>
-      <div class="service-grid">
-        <a class="service" href="#story">
-          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="10" width="36" height="28" rx="4"/><circle cx="20" cy="24" r="8"/><path d="M20 16v16M12 24h16M32 16h6M32 22h6M32 28h6"/></svg>
-          <h3>Wärmepumpen</h3><p>Planung, Heizlastberechnung, Montage und Inbetriebnahme – auch im Bestandsgebäude.</p><span class="more">Mehr erfahren</span>
+      <div class="bento">
+        <a class="tile tile-lg" href="#story">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="3"/><circle cx="19" cy="24" r="9"/><path d="M19 15v18M10 24h18M33 16h6M33 22h6M33 28h6"/></svg>
+          <h3>Wärmepumpen</h3>
+          <p>Planung, Heizlastberechnung, Montage und Inbetriebnahme. Auch im Bestandsgebäude und mit Heizkörpern.</p>
+          <span class="more">Im 3D-Modell ansehen</span>
         </a>
-        <a class="service" href="#kontakt">
+        <a class="tile" href="#kontakt">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c6 8 10 13 10 20a10 10 0 0 1-20 0c0-7 4-12 10-20z"/><path d="M24 34a5 5 0 0 1-5-5c0-3 2-5 5-9"/></svg>
-          <h3>Heizungsmodernisierung</h3><p>Austausch alter Öl- und Gaskessel, Hybridlösungen, Fußbodenheizung und hydraulischer Abgleich.</p><span class="more">Mehr erfahren</span>
+          <h3>Heizungsmodernisierung</h3>
+          <p>Austausch alter Öl- und Gaskessel, Hybridlösungen, Fußbodenheizung, hydraulischer Abgleich.</p>
         </a>
-        <a class="service" href="#bad">
+        <a class="tile" href="#bad">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 26h36v4a10 10 0 0 1-10 10H16A10 10 0 0 1 6 30z"/><path d="M12 26V12a5 5 0 0 1 10 0M14 40l-2 4M34 40l2 4"/></svg>
-          <h3>Badsanierung</h3><p>Barrierefreie Bäder, bodengleiche Duschen und Komplettsanierung mit festem Ansprechpartner.</p><span class="more">Mehr erfahren</span>
+          <h3>Badsanierung</h3>
+          <p>Bodengleiche Duschen, barrierefreie Bäder, Komplettsanierung mit festem Ansprechpartner.</p>
         </a>
-        <a class="service" href="#kontakt">
+        <a class="tile" href="#kontakt">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 14h20v8h12v20M8 14v8h12v20"/><circle cx="34" cy="10" r="4"/></svg>
-          <h3>Sanitärinstallation</h3><p>Trinkwasser, Abwasser, Rohrsanierung und Enthärtungsanlagen – normgerecht und dokumentiert.</p><span class="more">Mehr erfahren</span>
+          <h3>Sanitärinstallation</h3>
+          <p>Trinkwasser, Abwasser, Rohrsanierung und Enthärtungsanlagen. Normgerecht und dokumentiert.</p>
         </a>
-        <a class="service" href="#kontakt">
+        <a class="tile" href="#kontakt">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 8a10 10 0 0 0-9 14L8 35a3.5 3.5 0 0 0 5 5l13-13a10 10 0 0 0 14-9l-6 6-6-2-2-6z"/></svg>
-          <h3>Wartung & Kundendienst</h3><p>Regelmäßige Wartung senkt Verbrauch und Ausfallrisiko. Wir erinnern Sie rechtzeitig.</p><span class="more">Mehr erfahren</span>
+          <h3>Wartung &amp; Kundendienst</h3>
+          <p>Regelmäßige Wartung senkt Verbrauch und Ausfallrisiko. Wir erinnern Sie rechtzeitig.</p>
         </a>
-        <a class="service emergency" href="tel:+490000000000">
+        <a class="tile tile-accent" href="tel:+490000000000">
           <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><path d="M24 14v11l7 5"/></svg>
-          <h3>Notdienst</h3><p>Heizung aus, Rohrbruch, Wasser im Keller? Unser Notdienst ist für Sie erreichbar.</p><span class="more">0000 / 00 00 00</span>
+          <h3>Schnelle Hilfe</h3>
+          <p>Heizung aus oder Wasserschaden? Rufen Sie an. Wir kümmern uns so schnell wie möglich.</p>
+          <span class="more">0000 / 00 00 00</span>
         </a>
       </div>
     </div>
   </section>
 
   <!-- ============ Ablauf ============ -->
-  <section id="ablauf" class="section tinted">
+  <section id="ablauf" class="section">
     <div class="wrap">
       <header class="section-head">
-        <p class="eyebrow dark"><span class="dot"></span>So läuft's ab</p>
-        <h2>In vier Schritten zur neuen Heizung.</h2>
+        <p class="pill-label">Ablauf</p>
+        <h2>In vier Schritten <span class="fade">zur neuen Heizung.</span></h2>
       </header>
       <ol class="steps">
-        <li><b>1</b><h3>Beratung vor Ort</h3><p>Wir schauen uns Haus, Heizkörper und Verbrauch an und sagen ehrlich, was sinnvoll ist.</p></li>
-        <li><b>2</b><h3>Planung & Förderung</h3><p>Heizlastberechnung, Angebot zum Festpreis und Unterstützung beim Förderantrag.</p></li>
-        <li><b>3</b><h3>Montage</h3><p>Unser Team baut ein – meist in wenigen Tagen, mit sauberer Baustelle.</p></li>
-        <li><b>4</b><h3>Service</h3><p>Einweisung, Optimierung nach der ersten Heizperiode und jährliche Wartung.</p></li>
+        <li><b>01</b><h3>Beratung vor Ort</h3><p>Wir schauen uns Haus, Heizkörper und Verbrauch an und sagen ehrlich, was sinnvoll ist.</p></li>
+        <li><b>02</b><h3>Planung &amp; Förderung</h3><p>Heizlastberechnung, Angebot zum Festpreis und Unterstützung beim Förderantrag.</p></li>
+        <li><b>03</b><h3>Montage</h3><p>Unser Team baut ein, meist in wenigen Tagen, mit sauberer Baustelle.</p></li>
+        <li><b>04</b><h3>Service</h3><p>Einweisung, Optimierung nach der ersten Heizperiode und jährliche Wartung.</p></li>
       </ol>
     </div>
   </section>
 
   <!-- ============ Förderung ============ -->
-  <section class="funding">
-    <div class="wrap funding-inner">
-      <div>
-        <h2>Staatliche Förderung? Kümmern wir uns drum.</h2>
-        <p>Für den Heizungstausch gibt es attraktive Zuschüsse. Wir prüfen, was für Sie möglich ist, und begleiten den Antrag – bevor der erste Handgriff passiert.</p>
+  <section class="section funding-wrap">
+    <div class="wrap">
+      <div class="funding">
+        <div class="funding-lines" aria-hidden="true"></div>
+        <p class="pill-label">Förderung</p>
+        <h2>Staatliche Zuschüsse?<br><span class="fade">Kümmern wir uns drum.</span></h2>
+        <p>Für den Heizungstausch gibt es attraktive Zuschüsse. Wir prüfen, was für Sie möglich ist, und begleiten den Antrag, bevor der erste Handgriff passiert.</p>
+        <a class="btn btn-white" href="#kontakt">Förderung prüfen lassen</a>
       </div>
-      <a class="btn btn-blue" href="#kontakt">Förderung prüfen lassen</a>
     </div>
   </section>
 
   <!-- ============ Bad ============ -->
-  <section id="bad" class="section bath">
+  <section id="bad" class="section">
     <div class="wrap bath-inner">
       <div class="bath-copy">
-        <p class="eyebrow"><span class="dot"></span>Bäder</p>
-        <h2>Ihr neues Bad. Geplant, gebaut, fertig.</h2>
-        <p>Von der 3D-Planung bis zur letzten Silikonfuge: Wir koordinieren alle Gewerke, sodass Sie nur einen Ansprechpartner und einen Termin für die Übergabe haben.</p>
+        <p class="pill-label">Bäder</p>
+        <h2>Ihr neues Bad. <span class="fade">Geplant, gebaut, fertig.</span></h2>
+        <p>Von der 3D-Planung bis zur letzten Silikonfuge: Wir koordinieren alle Gewerke. Sie haben einen Ansprechpartner und einen Termin für die Übergabe.</p>
         <ul class="checks">
-          <li>Bodengleiche Duschen & barrierefreie Bäder</li>
+          <li>Bodengleiche Duschen &amp; barrierefreie Bäder</li>
           <li>Koordination von Fliesenleger, Elektriker und Trockenbau</li>
           <li>Festpreisangebot nach Aufmaß</li>
         </ul>
-        <a class="btn btn-yellow" href="#kontakt">Badberatung vereinbaren</a>
+        <a class="btn btn-outline" href="#kontakt">Badberatung vereinbaren <span aria-hidden="true">»</span></a>
       </div>
       <div class="bath-visual" aria-hidden="true">
         <div class="tiles"></div>
@@ -191,7 +213,7 @@
         <div class="shower"><span></span></div>
         <div class="vanity"><i></i></div>
         <div class="tub"></div>
-        <div class="bath-badge"><b>3D</b>Badplanung inklusive</div>
+        <div class="bath-badge">3D-Badplanung inklusive</div>
       </div>
     </div>
   </section>
@@ -199,13 +221,11 @@
   <!-- ============ Über uns ============ -->
   <section id="ueber-uns" class="section">
     <div class="wrap about">
-      <div class="about-year">
-        <span>Heizung · Sanitär · Trojanski</span><b>HST</b>
-      </div>
+      <div class="about-mark" aria-hidden="true"><span>HST</span></div>
       <div class="about-copy">
-        <p class="eyebrow dark"><span class="dot"></span>Über uns</p>
-        <h2>Handwerk aus Lippstadt – persönlich, schnell, fair.</h2>
-        <p>Bei HST haben Sie einen festen Ansprechpartner, der vorbeikommt, zuhört und das Problem löst – vom tropfenden Hahn bis zur neuen Wärmepumpe. <span class="placeholder">[Platzhalter: Gründung, Inhaber, Team, Einsatzgebiet]</span></p>
+        <p class="pill-label">Über uns</p>
+        <h2>Handwerk aus Lippstadt. <span class="fade">Persönlich, schnell, fair.</span></h2>
+        <p>Bei HST haben Sie einen festen Ansprechpartner, der vorbeikommt, zuhört und das Problem löst. Vom tropfenden Hahn bis zur neuen Wärmepumpe. <span class="placeholder">[Platzhalter: Gründung, Inhaber, Team, Einsatzgebiet]</span></p>
         <dl class="stats">
           <div><dt>XX</dt><dd>Jahre Erfahrung</dd></div>
           <div><dt>XX</dt><dd>Projekte</dd></div>
@@ -217,10 +237,10 @@
   </section>
 
   <!-- ============ Kundenstimmen ============ -->
-  <section id="stimmen" class="section tinted">
+  <section id="stimmen" class="section">
     <div class="wrap">
-      <header class="section-head">
-        <p class="eyebrow dark"><span class="dot"></span>Kundenstimmen</p>
+      <header class="section-head center">
+        <p class="pill-label">Kundenstimmen</p>
         <h2>Was unsere Kunden sagen.</h2>
         <p><span class="placeholder">[Platzhalter: hier echte Google-Bewertungen einbinden]</span></p>
       </header>
@@ -233,11 +253,11 @@
   </section>
 
   <!-- ============ Kontakt ============ -->
-  <section id="kontakt" class="section contact">
+  <section id="kontakt" class="section">
     <div class="wrap contact-inner">
       <div class="contact-copy">
-        <p class="eyebrow"><span class="dot"></span>Kontakt</p>
-        <h2>Lassen Sie uns über Ihr Projekt sprechen.</h2>
+        <p class="pill-label">Kontakt</p>
+        <h2>Lassen Sie uns über <span class="fade">Ihr Projekt sprechen.</span></h2>
         <p>Wir melden uns innerhalb eines Werktags bei Ihnen.</p>
         <ul class="contact-list">
           <li><span>Telefon</span><a href="tel:+490000000000">0000 / 00 00 00</a></li>
@@ -260,8 +280,8 @@
         </div>
         <label>E-Mail<input type="email" placeholder="name@beispiel.de" required></label>
         <label>Ihre Nachricht<textarea rows="4" placeholder="z. B. Baujahr des Hauses, aktuelle Heizung, Wunschtermin …"></textarea></label>
-        <button class="btn btn-blue" type="submit">Anfrage senden</button>
-        <p class="sent-msg">Danke! (Mockup – es wurde nichts versendet.)</p>
+        <button class="btn btn-white" type="submit">Anfrage senden</button>
+        <p class="sent-msg">Danke! (Mockup, es wurde nichts versendet.)</p>
       </form>
     </div>
   </section>
@@ -269,11 +289,21 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <div class="brand"><img src="assets/hst-mark.svg" alt="" width="40" height="40"><span><b>HST</b><small>Heizung · Sanitär · Trojanski – Lippstadt</small></span></div>
+    <div class="brand"><img src="assets/hst-mark.svg" alt="" width="30" height="30"><span>HST</span><small>Heizung · Sanitär · Trojanski · Lippstadt</small></div>
     <nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Karriere</a></nav>
   </div>
 </footer>
 
+<script>
+  // Mobiles Menü
+  const mt = document.querySelector('.menu-toggle');
+  mt.addEventListener('click', () => {
+    const open = document.body.classList.toggle('menu-open');
+    mt.setAttribute('aria-expanded', open);
+    mt.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+  });
+  document.querySelectorAll('.main-nav a').forEach(a => a.addEventListener('click', () => { document.body.classList.remove('menu-open'); mt.setAttribute('aria-expanded', false); }));
+</script>
 <script type="module" src="js/main.js"></script>
 </body>
 </html>

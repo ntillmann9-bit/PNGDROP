@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from '../vendor/RoomEnvironment.js';
 import { createMaterials, buildHeatPump, B, H } from './heatpump.js';
+import { createVortex } from './vortex.js';
 
 // ------------------------------------------------------------------
 // Drehbuch: Scroll-Fortschritt p (0..1) über die Story-Sektion.
@@ -9,14 +10,14 @@ import { createMaterials, buildHeatPump, B, H } from './heatpump.js';
 // h = Kamerahöhe, r = Abstand, t = Zielpunkt, sx = Bildversatz (Anteil Breite).
 // ------------------------------------------------------------------
 const STAGES = [
-  { id: 'hero',        from: 0.00, to: 0.09, parts: [],                           cam: { az: 34,  h: 1.05, r: 3.25, t: [0, 0.5, 0],          sx: -0.2 } },
+  { id: 'hero',        from: 0.00, to: 0.09, parts: [],                           cam: { az: 26,  h: 1.55, r: 6.6,  t: [0, 1.62, 0],         sx: 0.0 } },
   { id: 'gehaeuse',    from: 0.12, to: 0.25, parts: ['front', 'grille'],          cam: { az: -38, h: 1.1,  r: 3.75, t: [-0.02, 0.52, 0.32],  sx: -0.13 } },
   { id: 'ventilator',  from: 0.27, to: 0.40, parts: ['front', 'grille', 'fan'],   cam: { az: -16, h: 0.76, r: 2.55, t: [-0.16, 0.55, 0.3],   sx: 0.16 } },
   { id: 'verdichter',  from: 0.43, to: 0.55, parts: ['side', 'top', 'compressor'], cam: { az: 66,  h: 0.85, r: 2.5,  t: [0.55, 0.4, 0.0],     sx: -0.15 } },
   { id: 'verdampfer',  from: 0.58, to: 0.69, parts: ['coil'],                      cam: { az: 205, h: 1.15, r: 2.45, t: [-0.15, 0.5, -0.38],  sx: 0.19 } },
   { id: 'regelung',    from: 0.72, to: 0.81, parts: ['top', 'electronics'],        cam: { az: 28,  h: 1.75, r: 1.85, t: [0.4, 1.0, 0.2],      sx: -0.18 } },
   { id: 'explosion',   from: 0.84, to: 0.94, parts: ['front', 'grille', 'fan', 'side', 'top', 'compressor', 'coil', 'electronics'], cam: { az: 30, h: 1.35, r: 4.1, t: [0.05, 0.62, 0.15], sx: -0.12 } },
-  { id: 'ende',        from: 0.97, to: 1.00, parts: [],                           cam: { az: 34,  h: 1.05, r: 3.25, t: [0, 0.5, 0],          sx: 0.0 } },
+  { id: 'ende',        from: 0.97, to: 1.00, parts: [],                           cam: { az: 30,  h: 1.2,  r: 4.4,  t: [0, 0.9, 0],          sx: 0.0 } },
 ];
 
 const ss = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
@@ -42,7 +43,7 @@ const KEYS = [];
 for (const s of STAGES) {
   const c = s.cam;
   KEYS.push({ p: s.from, ...c, r: c.r });
-  KEYS.push({ p: s.to, ...c, az: c.az + (s.id === 'hero' ? -10 : 4), r: c.r * (s.id === 'explosion' ? 0.94 : 0.9) });
+  KEYS.push({ p: s.to, ...c, az: c.az + (s.id === 'hero' ? -6 : 4), r: c.r * (s.id === 'explosion' ? 0.94 : 0.9) });
 }
 function camAt(p) {
   let i = 0;
@@ -57,7 +58,8 @@ function camAt(p) {
 
 // ------------------------------------------------------------------
 const canvas = document.getElementById('scene');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setClearColor(0x030304, 1);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.NeutralToneMapping;
@@ -68,12 +70,12 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-scene.environmentIntensity = 0.95;
+scene.environmentIntensity = 0.55;
 
-const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 50);
+const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 80);
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0xdfe3ea, 0.6));
-const key = new THREE.DirectionalLight(0xffffff, 2.2);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x101014, 0.35));
+const key = new THREE.DirectionalLight(0xffffff, 2.4);
 key.position.set(2.2, 4.2, 3.0);
 key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048);
@@ -83,23 +85,28 @@ key.shadow.camera.near = 0.5; key.shadow.camera.far = 10;
 key.shadow.bias = -0.0004; key.shadow.normalBias = 0.01;
 key.shadow.radius = 6;
 scene.add(key);
-const rim = new THREE.DirectionalLight(0xdbe8ff, 1.0);
-rim.position.set(-3, 2, -3);
+// Kantenlichter von hinten – zeichnen die Silhouette aus dem Schwarz
+const rim = new THREE.DirectionalLight(0xdfe6ff, 3.2);
+rim.position.set(-3, 2.5, -3.5);
 scene.add(rim);
+const rim2 = new THREE.DirectionalLight(0xffffff, 2.2);
+rim2.position.set(3.5, 1.5, -3);
+scene.add(rim2);
 
 // Boden: Schattenfänger + weicher Kontaktschatten
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ opacity: 0.16 }));
-floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true;
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ opacity: 0.6, depthWrite: false, transparent: true }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; floor.position.y = 0.001; floor.renderOrder = 2;
 scene.add(floor);
 {
   const c = document.createElement('canvas'); c.width = c.height = 256;
   const g = c.getContext('2d');
   const grd = g.createRadialGradient(128, 128, 10, 128, 128, 128);
-  grd.addColorStop(0, 'rgba(10,20,40,0.42)'); grd.addColorStop(0.5, 'rgba(10,20,40,0.14)'); grd.addColorStop(1, 'rgba(10,20,40,0)');
+  grd.addColorStop(0, 'rgba(255,255,255,0.20)'); grd.addColorStop(0.45, 'rgba(255,255,255,0.07)'); grd.addColorStop(1, 'rgba(255,255,255,0)');
   g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
   const tex = new THREE.CanvasTexture(c);
-  const blob = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 1.05), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
-  blob.rotation.x = -Math.PI / 2; blob.position.y = 0.002;
+  // Lichtkegel auf dem Boden (Bühne)
+  const blob = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 4.2), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  blob.rotation.x = -Math.PI / 2; blob.position.y = 0.0005; blob.renderOrder = 1;
   scene.add(blob);
 }
 
@@ -107,10 +114,11 @@ scene.add(floor);
 function makeLogoTexture() {
   const c = document.createElement('canvas'); c.width = c.height = 512;
   const g = c.getContext('2d');
-  g.fillStyle = '#13294b'; g.beginPath(); g.roundRect(0, 0, 512, 512, 96); g.fill();
-  g.fillStyle = '#ffffff'; g.font = '800 210px "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif';
-  g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillText('HST', 256, 310);
-  g.fillStyle = '#f07a2b'; g.beginPath(); g.roundRect(118, 362, 276, 30, 15); g.fill();
+  g.fillStyle = '#0c0d10'; g.fillRect(0, 0, 512, 512);
+  g.strokeStyle = 'rgba(255,255,255,0.35)'; g.lineWidth = 6; g.strokeRect(20, 20, 472, 472);
+  g.fillStyle = '#ffffff'; g.font = '600 190px "Inter Tight", "Helvetica Neue", Arial, sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillText('HST', 256, 300);
+  g.fillStyle = '#ff8a3d'; g.fillRect(156, 350, 200, 8);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
@@ -124,11 +132,15 @@ const pivot = new THREE.Group();
 pivot.add(root);
 scene.add(pivot);
 
+const vortex = createVortex(renderer.getPixelRatio());
+scene.add(vortex.group);
+
 // ------------------------------------------------------------------
 // DOM
 const story = document.getElementById('story');
 const cards = [...document.querySelectorAll('.stage-card')];
 const heroEl = document.querySelector('.hero-copy');
+const scrollHint = document.querySelector('.scroll-hint');
 const tag = document.getElementById('tag');
 const tagLabel = tag.querySelector('span');
 const pills = [...document.querySelectorAll('.stage-nav button')];
@@ -209,19 +221,24 @@ function frame(now) {
   const c = camAt(p);
   const az = THREE.MathUtils.degToRad(c.az + Math.sin(time * 0.35) * 1.2);
   let r = c.r;
-  const heroMob = mobile ? 1 - ss(0.03, 0.1, p) : 0;   // im Hero auf dem Handy kleiner und weiter oben
-  if (mobile) r *= (1 + (0.9 - camera.aspect) * 1.25) * (1 + 0.3 * heroMob);
+  const heroMob = mobile ? 1 - ss(0.03, 0.1, p) : 0;
+  if (mobile) r *= 1 + (0.9 - camera.aspect) * (1.25 - 0.55 * heroMob);
   camera.position.set(c.t[0] + Math.sin(az) * r, c.h + (mobile ? 0.15 : 0), c.t[2] + Math.cos(az) * r);
   camera.lookAt(c.t[0], c.t[1] - (mobile ? 0.12 : 0), c.t[2]);
   const vw = canvas.clientWidth, vh = canvas.clientHeight;
-  if (mobile) camera.setViewOffset(vw, vh, 0, vh * (0.1 + 0.12 * heroMob), vw, vh);
+  if (mobile) camera.setViewOffset(vw, vh, 0, vh * (0.1 - 0.16 * heroMob), vw, vh);
   else camera.setViewOffset(vw, vh, c.sx * vw, 0, vw, vh);   // sx < 0 → Objekt rechts
+
+  // Strudel: im Hero voll, danach als leiser Hintergrund, in der Explosion wieder heller
+  const vo = lerp(1, 0.32, ss(0.03, 0.13, p)) + 0.45 * ss(0.83, 0.88, p) * (1 - ss(0.94, 0.99, p));
+  vortex.update(time, vo);
 
   renderer.render(scene, camera);
 
   // UI: Hero, Karten, Tag, Navigation
   heroEl.style.opacity = 1 - ss(0.03, 0.09, p);
-  heroEl.style.transform = `translateY(${-40 * ss(0.03, 0.09, p)}px)`;
+  heroEl.style.transform = `translate(-50%, ${-40 * ss(0.03, 0.09, p)}px)`;
+  scrollHint.style.opacity = 1 - ss(0.005, 0.03, p);
   let active = null;
   cards.forEach(card => {
     const s = STAGES.find(x => x.id === card.dataset.stage);
@@ -241,7 +258,9 @@ function frame(now) {
     part.localToWorld(tmp);
     tmp.project(camera);
     const x = (tmp.x * 0.5 + 0.5) * vw, y = (-tmp.y * 0.5 + 0.5) * vh;
-    tag.style.transform = `translate(${x}px, ${y}px)`;
+    const tw = tag.offsetWidth || 160;   // Etikett bleibt im Bild
+    const cx = Math.min(Math.max(x, 16), vw - tw - 12), cy = Math.min(Math.max(y, 90), vh - 40);
+    tag.style.transform = `translate(${cx}px, ${cy}px)`;
     tag.style.opacity = 1;
     if (tagLabel.textContent !== t.text) tagLabel.textContent = t.text;
   } else tag.style.opacity = 0;

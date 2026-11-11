@@ -13,22 +13,22 @@ const DIV = 0.18;        // Trennwand x
 
 export function createMaterials(logoTexture) {
   const m = {};
-  m.shell = new THREE.MeshPhysicalMaterial({ color: 0xf3f4f6, roughness: 0.3, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.08 });
+  m.shell = new THREE.MeshPhysicalMaterial({ color: 0x2e3137, roughness: 0.42, metalness: 0.3, clearcoat: 1, clearcoatRoughness: 0.12 });
   m.shellInner = new THREE.MeshStandardMaterial({ color: 0xd9dce1, roughness: 0.6 });
   m.anthracite = new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.5, metalness: 0.35 });
   m.dark = new THREE.MeshStandardMaterial({ color: 0x15171b, roughness: 0.45, metalness: 0.55 });
-  m.black = new THREE.MeshStandardMaterial({ color: 0x0c0d0f, roughness: 0.7, metalness: 0.1 });
+  m.black = new THREE.MeshStandardMaterial({ color: 0x050506, roughness: 0.7, metalness: 0.1 });
   m.compressor = new THREE.MeshPhysicalMaterial({ color: 0x1d2025, roughness: 0.32, metalness: 0.7, clearcoat: 0.6, clearcoatRoughness: 0.2 });
   m.copper = new THREE.MeshStandardMaterial({ color: 0xc27a4e, roughness: 0.26, metalness: 1.0 });
   m.copperDark = new THREE.MeshStandardMaterial({ color: 0x8e5233, roughness: 0.35, metalness: 1.0 });
   m.brass = new THREE.MeshStandardMaterial({ color: 0xc9a54e, roughness: 0.3, metalness: 1.0 });
   m.fin = new THREE.MeshStandardMaterial({ color: 0x7d8796, roughness: 0.35, metalness: 0.85 });
-  m.galv = new THREE.MeshStandardMaterial({ color: 0xa3a9b2, roughness: 0.4, metalness: 0.8 });
+  m.galv = new THREE.MeshStandardMaterial({ color: 0x8d939c, roughness: 0.4, metalness: 0.8 });
   m.blade = new THREE.MeshStandardMaterial({ color: 0x2c3138, roughness: 0.42, metalness: 0.15, side: THREE.DoubleSide });
-  m.blue = new THREE.MeshPhysicalMaterial({ color: 0x1d4f91, roughness: 0.3, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.1 });
-  m.yellow = new THREE.MeshPhysicalMaterial({ color: 0xf07a2b, roughness: 0.32, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.1 });
-  m.yellowGlow = new THREE.MeshStandardMaterial({ color: 0xf07a2b, emissive: 0xff7a1a, emissiveIntensity: 1.4 });
-  m.blueGlow = new THREE.MeshStandardMaterial({ color: 0x3d8bff, emissive: 0x2f7bff, emissiveIntensity: 1.6 });
+  m.blue = new THREE.MeshPhysicalMaterial({ color: 0xb9bec6, metalness: 0.9, roughness: 0.3, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.1 });
+  m.yellow = new THREE.MeshPhysicalMaterial({ color: 0xff8a3d, roughness: 0.32, metalness: 0.0, clearcoat: 1, clearcoatRoughness: 0.1 });
+  m.yellowGlow = new THREE.MeshStandardMaterial({ color: 0xff8a3d, emissive: 0xff7a1a, emissiveIntensity: 2.2 });
+  m.blueGlow = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xdfe8ff, emissiveIntensity: 1.6 });
   m.glass = new THREE.MeshPhysicalMaterial({ color: 0x0b0d10, roughness: 0.05, metalness: 0.2, clearcoat: 1 });
   m.rubber = new THREE.MeshStandardMaterial({ color: 0x111214, roughness: 0.95 });
   m.pcb = new THREE.MeshStandardMaterial({ color: 0x11402c, roughness: 0.45, metalness: 0.2 });
@@ -279,8 +279,7 @@ function buildFront(m) {
   // Rahmen um die Lüfteröffnung
   g.add(mesh(new THREE.TorusGeometry(0.308, 0.006, 10, 128), m.anthracite, FX, FY - B, zf - 0.002));
   // Markenleiste unten (blau) + gelbe Linie
-  g.add(rbox(W - 0.08, 0.016, 0.004, 0.002, m.blue, 0, 0.04, zf));
-  g.add(box(0.2, 0.004, 0.003, m.yellow, 0.34, 0.056, zf));
+  g.add(box(W - 0.1, 0.004, 0.003, m.yellowGlow, 0, 0.04, zf));
   // Logo-Schild
   const logo = mesh(new THREE.PlaneGeometry(0.1, 0.1), m.logo, 0.4, H - 0.115, zf + 0.0015);
   logo.castShadow = false; g.add(logo);

@@ -1,12 +1,14 @@
 # HST – Website-Mockup (Heizung · Sanitär · Trojanski)
 
-Erster Entwurf einer One-Page-Website mit scrollgesteuerter 3D-Wärmepumpe.
+Entwurf einer dunklen One-Page-Website (monochrom, feine Linien, Akzent Wärme-Orange)
+mit scrollgesteuerter 3D-Wärmepumpe. Im Hero windet sich ein Luftstrom-Strudel aus
+tausenden feinen Linien auf die Wärmepumpe herab.
 Die Wärmepumpe ist komplett in three.js-Code gebaut (kein 3D-Modell, kein Download)
 und zerlegt sich beim Scrollen Station für Station:
 
 | Station | Was passiert |
 |---|---|
-| Hero | Außeneinheit in 3/4-Ansicht, Ventilator dreht |
+| Hero | Linien-Strudel (Luftstrom) über der Außeneinheit, Ventilator dreht |
 | 01 Gehäuse | Frontverkleidung + Lüftergitter fahren nach vorn |
 | 02 Ventilator | Verkleidung gleitet aus dem Bild, Nahaufnahme EC-Ventilator |
 | 03 Verdichter | Seitenwand schwenkt weg, Verdichter + Abscheider fahren heraus |
@@ -29,13 +31,14 @@ python3 -m http.server 8000
 - `index.html` – Seite & Texte
 - `css/styles.css` – Gestaltung (Farben oben in `:root`)
 - `js/heatpump.js` – das 3D-Modell, jedes Bauteil als Funktion
+- `js/vortex.js` – Luftstrom-Strudel (Linien + Partikel, Shader)
 - `js/main.js` – Drehbuch (`STAGES`), Kamerafahrt, Scroll-Steuerung
 - `vendor/` – three.js r170 (lokal, keine CDN-Abhängigkeit)
 - `assets/hst-mark.svg` – Platzhalter-Logo
 
 ## Noch zu ergänzen (Platzhalter)
 
-- Echtes Logo & Hausfarben (aktuell: Navy + Orange als Vorschlag)
+- Echtes Logo (aktuell Platzhalter „HST“)
 - Telefonnummer, E-Mail, PLZ
 - Über uns: Gründung, Inhaber, Team, Einsatzgebiet, Kennzahlen
 - Echte Google-Bewertungen
