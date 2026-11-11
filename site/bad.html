@@ -139,7 +139,7 @@ footer { padding-block: 34px; color: var(--dim); font: 400 12px/1.6 var(--font-m
   .card h2 { font-size: 25px; }
   .card p { font-size: 14.5px; }
   .card .chips { display: none; }
-  .card[data-stage="wc"], .card[data-stage="heizung"] { top: calc(78px + env(safe-area-inset-top, 0px)); bottom: auto; }
+  .card, .card.left, .card.right { top: calc(76px + env(safe-area-inset-top, 0px)); bottom: auto; }
   .layers li { padding: 6px 0; font-size: 13px; }
   .steps-nav { top: auto; bottom: 18px; left: 16px; right: 16px; transform: none; flex-direction: row; justify-content: center; gap: 2px; }
   .steps-nav button { width: 26px; height: 20px; padding: 0; justify-content: center; background: none !important; }
@@ -283,13 +283,13 @@ footer { padding-block: 34px; color: var(--dim); font: 400 12px/1.6 var(--font-m
   // Drehbuch: Kamera je Station – z = Zoom, fx/fy = Bildpunkt (0..1), sx/sy = Bildschirmposition (0..1)
   const STAGES = [
     { id: 'hero',       from: 0.00, to: 0.07, d: { z: 1.03, fx: .55, fy: .55, sx: .55, sy: .55 }, m: { z: 1.0,  fx: .6,  fy: .55, sx: .5, sy: .5 } },
-    { id: 'wanne',      from: 0.13, to: 0.27, d: { z: 1.85, fx: .6,  fy: .7,  sx: .66, sy: .56 }, m: { z: 1.9,  fx: .6,  fy: .7,  sx: .5, sy: .3 } },
-    { id: 'waschtisch', from: 0.32, to: 0.46, d: { z: 2.1,  fx: .17, fy: .58, sx: .33, sy: .52 }, m: { z: 2.2,  fx: .17, fy: .57, sx: .5, sy: .28 } },
-    { id: 'wc',         from: 0.51, to: 0.65, d: { z: 1.9,  fx: .86, fy: .78, sx: .66, sy: .54 }, m: { z: 2.0,  fx: .86, fy: .8,  sx: .5, sy: .78 } },
-    { id: 'heizung',    from: 0.70, to: 0.88, d: { z: 1.12, fx: .42, fy: .82, sx: .4,  sy: .62 }, m: { z: 1.6,  fx: .4,  fy: .86, sx: .5, sy: .8 } },
+    { id: 'wanne',      from: 0.13, to: 0.27, d: { z: 1.85, fx: .6,  fy: .7,  sx: .66, sy: .56 }, m: { z: 1.0,  fx: .6,  fy: .7,  sx: .5, sy: .72 } },
+    { id: 'waschtisch', from: 0.32, to: 0.46, d: { z: 2.1,  fx: .17, fy: .58, sx: .33, sy: .52 }, m: { z: 1.3,  fx: .2,  fy: .58, sx: .5, sy: .7 } },
+    { id: 'wc',         from: 0.51, to: 0.65, d: { z: 1.9,  fx: .86, fy: .78, sx: .66, sy: .54 }, m: { z: 1.2,  fx: .84, fy: .78, sx: .5, sy: .74 } },
+    { id: 'heizung',    from: 0.70, to: 0.88, d: { z: 1.12, fx: .42, fy: .82, sx: .4,  sy: .62 }, m: { z: 1.05, fx: .42, fy: .85, sx: .5, sy: .78 } },
     { id: 'ende',       from: 0.93, to: 1.00, d: { z: 1.0,  fx: .5,  fy: .5,  sx: .5,  sy: .5 },  m: { z: 1.0,  fx: .6,  fy: .55, sx: .5, sy: .5 } },
   ];
-  const keys = mobile => STAGES.flatMap(s => { const c = mobile ? s.m : s.d; return [{ p: s.from, ...c }, { p: s.to, ...c, z: c.z * (s.id === 'ende' ? 1 : 1.05) }]; });
+  const keys = mobile => STAGES.flatMap(s => { const c = mobile ? s.m : s.d; return [{ p: s.from, ...c }, { p: s.to, ...c, z: c.z * (s.id === 'ende' ? 1 : (mobile ? 1.03 : 1.05)) }]; });
   let KEYS = keys(false);
   function camAt(p) {
     let i = 0; while (i < KEYS.length - 2 && p > KEYS[i + 1].p) i++;
