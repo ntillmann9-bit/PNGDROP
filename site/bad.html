@@ -316,10 +316,58 @@ footer { padding-block: 34px; color: var(--dim); font: 400 12px/1.6 var(--font-m
   window.__setProgress = v => { forced = v; p = v; };
   const read = () => { const max = story.offsetHeight - innerHeight; target = Math.min(1, Math.max(0, (scrollY - story.offsetTop) / Math.max(1, max))); };
   addEventListener('scroll', read, { passive: true }); read();
-  navs.forEach(b => b.addEventListener('click', () => {
-    const s = STAGES.find(x => x.id === b.dataset.go);
-    scrollTo({ top: story.offsetTop + (s.from + s.to) / 2 * (story.offsetHeight - innerHeight), behavior: 'smooth' });
-  }));
+  // ---------- Einrasten an den Stationen ----------
+  // Rastpunkte als Scroll-Fortschritt: Start, Wanne, Waschtisch, WC, Fußbodenheizung (voll freigelegt), Schluss
+  const SNAP = { hero: 0, wanne: 0.2, waschtisch: 0.39, wc: 0.58, heizung: 0.835, ende: 0.97 };
+  const snapList = Object.values(SNAP);
+  const maxScroll = () => story.offsetHeight - innerHeight;
+  const yOf = v => story.offsetTop + v * maxScroll();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let anim = null, touching = false, idleTimer = 0, restY = scrollY;
+
+  function glideTo(y) {
+    cancelAnimationFrame(anim);
+    const y0 = scrollY, dy = y - y0;
+    if (Math.abs(dy) < 2) { restY = y; return; }
+    if (reduce) { scrollTo(0, y); restY = y; return; }
+    const dur = Math.min(950, 420 + Math.abs(dy) * 0.35), t0 = performance.now();
+    const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const step = now => {
+      const t = Math.min(1, (now - t0) / dur);
+      scrollTo(0, y0 + dy * ease(t));
+      if (t < 1) anim = requestAnimationFrame(step); else { anim = null; restY = y; }
+    };
+    anim = requestAnimationFrame(step);
+  }
+  const stopGlide = () => { if (anim) { cancelAnimationFrame(anim); anim = null; } };
+
+  function settle() {
+    if (anim || touching || forced !== null) return;
+    const y = scrollY, top = story.offsetTop, last = yOf(SNAP.ende);
+    if (y < top - 2 || y > last + innerHeight * 0.35) { restY = y; return; }   // außerhalb der Bühne: frei scrollen
+    const pts = snapList.map(yOf);
+    const moved = y - restY;
+    let target;
+    if (Math.abs(moved) < 40) {                        // kaum bewegt: zurück zum nächsten Punkt
+      target = pts.reduce((a, b) => Math.abs(b - y) < Math.abs(a - y) ? b : a);
+    } else if (moved > 0) {                            // nach unten: nächste Station
+      target = pts.find(v => v > y + 1);
+      if (target === undefined) { restY = y; return; } // hinter dem Schluss: weiter zum Vergleich
+    } else {                                           // nach oben: vorherige Station
+      target = [...pts].reverse().find(v => v < y - 1) ?? pts[0];
+    }
+    glideTo(target);
+  }
+  const queueSettle = () => { clearTimeout(idleTimer); idleTimer = setTimeout(settle, 140); };
+  addEventListener('scroll', () => { if (!anim) queueSettle(); }, { passive: true });
+  addEventListener('touchstart', () => { touching = true; stopGlide(); }, { passive: true });
+  addEventListener('touchend', () => { touching = false; queueSettle(); }, { passive: true });
+  addEventListener('touchcancel', () => { touching = false; queueSettle(); }, { passive: true });
+  addEventListener('wheel', stopGlide, { passive: true });
+  addEventListener('keydown', stopGlide);
+
+  navs.forEach(b => b.addEventListener('click', () => glideTo(yOf(SNAP[b.dataset.go]))));
+  document.getElementById('explore').addEventListener('click', e => { e.preventDefault(); glideTo(yOf(SNAP.wanne)); });
 
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
